@@ -1,6 +1,6 @@
-# RateLoc Quote Advisor
+# Quote Advisor
 
-RateLoc Quote Advisor is a tool designed to automate the extraction of hotel offer data from quotation documents (PDFs/images) using Vision LLMs via the Groq API.
+Quote Advisor is a tool designed to automate the extraction of hotel offer data from quotation documents (PDFs/images) using Vision LLMs via the Groq API.
 
 ## 🚀 Features
 
