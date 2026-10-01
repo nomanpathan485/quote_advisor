@@ -68,7 +68,7 @@ result = {
     "failed_sources": pages.get("failed_results", []),
 }
 
-output_path = project_dir / "output" / "first_hotel_research.json"
+    output_path = project_dir / "output" / "first_hotel_research.json"
 output_path.write_text(
     json.dumps(result, indent=2, ensure_ascii=False),
     encoding="utf-8",

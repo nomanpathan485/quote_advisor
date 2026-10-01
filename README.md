@@ -36,7 +36,6 @@ By leveraging state-of-the-art Vision LLMs and structured data extraction, the t
 1. **Clone the repository**:
    ```bash
    git clone <repository-url>
-   cd rateloc_quote_advisor
    ```
 
 2. **Set up a virtual environment**:
@@ -66,8 +65,16 @@ Extract structured data from a hotel quotation PDF:
 ```bash
 python main.py
 ```
-- **Input**: PDF in `samples/`
+- **Input**: PDF in `samples/` (e.g., `doha_quote.pdf`)
 - **Output**: `output/doha_quote.json` (Validated JSON data)
+
+#### Visual Example
+| Input (Quotation PDF) | Output (Generated Report) |
+| :---: | :---: |
+| ![Input PDF](images/doha_page_1.png) | ![Report](images/output_pages/comp_page_1.png) |
+*Note: The report is an HTML file; a screenshot of the rendered report is used above for visual representation.*
+
+
 
 ### 2. Full Research & Reporting Pipeline
 To generate a professional `hotel_report.html`, execute the following sequence:
