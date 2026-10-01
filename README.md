@@ -1,25 +1,38 @@
 # Quote Advisor
-
 Quote Advisor is a tool designed to automate the extraction of hotel offer data from quotation documents (PDFs/images) using Vision LLMs via the Groq API.
+=======
+RateLoc Quote Advisor is an intelligent automation system designed to streamline the extraction of hotel offer data from quotation documents (PDFs/Images) and enhance that data thro
+ugh automated web research to generate professional comparison reports.
+>>>>>>> 69f6766 (feat: add hotel research and comparison pipeline)
 
-## 🚀 Features
+By leveraging state-of-the-art Vision LLMs and structured data extraction, the tool eliminates manual data entry and reduces the risk of human error in processing complex hotel quotations.
 
-- **PDF to Image Rendering**: Converts hotel quotation PDFs into images for processing.
-- **Vision-Based Extraction**: Uses high-performance Vision models (e.g., Qwen) to transcribe complex hotel offer details.
-- **Structured Data Output**: Extracts information into a validated JSON schema, including:
-  - Hotel name and address
-  - Price and currency symbols
-  - Room descriptions (preserving truncations)
-  - Dates and number of nights
-  - Meal plans and cancellation policies
-- **Strict Fidelity**: Designed to copy digits and wording exactly as they appear, avoiding AI hallucinations or inferences.
+## 🚀 Key Features
 
-## 🛠️ Tech Stack
+- **Vision-Based Extraction**: Utilizes high-performance Vision models (via Groq API) to transcribe complex hotel offer details from images and PDFs with high fidelity.
+- **Automated PDF Processing**: Converts PDF quotations into high-resolution images optimized for LLM vision processing.
+- **Structured Data Validation**: Employs strict Pydantic schemas to ensure extracted data (prices, room types, meal plans, policies) is validated and consistent.
+- **Intelligent Web Research**: Automatically searches for and extracts additional hotel details to enrich the basic quote data.
+- **Professional Reporting**: Generates comprehensive HTML reports and comparison summaries for stakeholders.
+- **Strict Fidelity**: Engineered to copy digits and wording exactly as they appear, preventing AI hallucinations.
 
+## 🛠️ Technology Stack
+
+### Core Backend
 - **Language**: Python 3.13
-- **LLM API**: [Groq](https://groq.com/)
-- **Data Validation**: Pydantic (via schemas)
-- **PDF Processing**: Custom service for page rendering
+- **Orchestration**: Custom service-oriented architecture for modularity.
+
+### AI & LLM Integration
+- **LLM Gateway**: [Groq](https://groq.com/) (providing ultra-fast inference).
+- **Models**: Vision-capable LLMs (e.g., Qwen-VL) for document transcription and analysis.
+
+### Data & Validation
+- **Validation**: [Pydantic](https://docs.pydantic.dev/) for rigorous type checking and JSON schema enforcement.
+- **Data Format**: JSON for intermediate storage and exchange.
+
+### Document Processing
+- **PDF Rendering**: Specialized service for converting PDF pages to images.
+- **Reporting**: HTML/CSS for the final professional output.
 
 ## 📦 Installation
 
@@ -32,7 +45,10 @@ Quote Advisor is a tool designed to automate the extraction of hotel offer data 
 2. **Set up a virtual environment**:
    ```bash
    python -m venv .venv
-   source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+   # On Windows:
+   .venv\Scripts\activate
+   # On macOS/Linux:
+   source .venv/bin/activate
    ```
 
 3. **Install dependencies**:
@@ -46,55 +62,43 @@ Quote Advisor is a tool designed to automate the extraction of hotel offer data 
    GROQ_API_KEY=your_groq_api_key_here
    ```
 
-## 🏃 Usage
+## 🏃 Usage Guide
 
-### Basic Extraction
-Place your hotel quotation PDF in the `samples/` directory and run the main script:
-
+### 1. Basic Data Extraction
+Extract structured data from a hotel quotation PDF:
 ```bash
 python main.py
 ```
+- **Input**: PDF in `samples/`
+- **Output**: `output/doha_quote.json` (Validated JSON data)
 
-**Workflow**:
-1. `main.py` triggers `pdf_service` to render the first page of the PDF to `output/doha_page_1.png`.
-2. The image is sent to the `quote_extractor` service.
-3. The extracted data is validated against the `Quote` schema.
-4. The final result is saved to `output/doha_quote.json`.
+### 2. Full Research & Reporting Pipeline
+To generate a professional `hotel_report.html`, execute the following sequence:
 
-### Generating the Hotel Report (`hotel_report.html`)
-To generate the final HTML report, you must run the full research pipeline in the following order:
+| Step | Command | Description | Output |
+| :--- | :--- | :--- | :--- |
+| **1** | `python main.py` | Extracts basic quote data | `doha_quote.json` |
+| **2** | `python research.py` | Performs web research on the hotel | `first_hotel_search.json` |
+| **3** | `python extract_research.py` | Parses research pages into structured facts | `first_hotel_research.json` |
+| **4** | `python generate_report.py` | Compiles all data into a final report | `hotel_report.html` |
 
-1. **Extract Quote**:
-   ```bash
-   python main.py
-   ```
-   *Generates `output/doha_quote.json`*
+## 📂 Project Architecture
 
-2. **Web Research**:
-   ```bash
-   python research.py
-   ```
-   *Generates `output/first_hotel_search.json`*
-
-3. **Extract Research Details**:
-   ```bash
-   python extract_research.py
-   ```
-   *Generates `output/first_hotel_research.json` (Requires page content in `first_hotel_pages.json`)*
-
-4. **Build Report**:
-   ```bash
-   python generate_report.py
-   ```
-   *Generates the final `output/hotel_report.html`*
-
-
-## 📂 Project Structure
-
-- `main.py`: Entry point for the extraction pipeline.
-- `services/`: Business logic for PDF rendering, LLM interaction, and reporting.
-- `schemas/`: Pydantic models ensuring the extracted JSON follows a strict format.
-- `samples/`: Input PDF files for testing.
-- `output/`: Rendered images and resulting JSON extractions.
-
-
+```text
+rateloc_quote_advisor/
+├── main.py                 # Entry point for the extraction pipeline
+├── research.py              # Web research orchestration
+├── extract_research.py      # Research data extraction logic
+├── generate_report.py      # Final HTML report generator
+├── services/               # Core Business Logic
+│   ├── pdf_service.py      # PDF to Image conversion
+│   ├── quote_extractor.py  # LLM Vision integration for quotes
+│   ├── search_service.py   # Web search capabilities
+│   ├── research_extractor.py # LLM integration for research facts
+│   └── report_service.py   # HTML template rendering
+├── schemas/                # Pydantic Data Models
+│   ├── quote.py            # Schema for hotel quotes
+│   └── research.py         # Schema for hotel research facts
+├── samples/                # Input PDF files
+└── output/                 # Resulting images, JSONs, and HTML
+```

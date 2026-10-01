@@ -42,3 +42,17 @@ def clean_travelweekly_page(page_text: str, hotel_name: str) -> str:
     text = re.sub(r"\n[ \t]*\n(?:[ \t]*\n)+", "\n\n", text)
 
     return text.strip()
+def clean_web_page(page_text: str) -> str:
+    """Remove bulky Markdown URLs while preserving visible text."""
+    # Remove image markup.
+    text = re.sub(r"!\[[^\]]*\]\([^\n]*?\)", "", page_text)
+
+    # Preserve link labels, including hotel names and distances.
+    text = re.sub(r"\[([^\]]*)\]\([^\n]*?\)", r"\1", text)
+
+    # Remove empty lines and normalize trailing whitespace.
+    lines = [line.rstrip() for line in text.splitlines()]
+    text = "\n".join(lines)
+    text = re.sub(r"\n[ \t]*\n(?:[ \t]*\n)+", "\n\n", text)
+
+    return text.strip()
