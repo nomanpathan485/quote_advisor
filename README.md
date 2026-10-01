@@ -72,7 +72,7 @@ python main.py
 | Input (Quotation PDF) | Output (Generated Report) |
 | :---: | :---: |
 | ![Input PDF](images/doha_page_1.png) | ![Report](images/output_pages/comp_page_1.png) |
-*Note: The report is an HTML file; a screenshot of the rendered report is used above for visual representation.*
+
 
 
 
